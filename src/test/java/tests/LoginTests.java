@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.Reporter;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import pages.DashboardPage;
 import pages.LoginPage;
-import pages.SecureAreaPage;
+//import pages.SecureAreaPage;
 
 import static org.testng.Assert.assertTrue;
 
@@ -16,26 +18,28 @@ import static utils.Timers.setTimestamp;
 @Slf4j
 public class LoginTests extends BaseTest {
 	
-    @Test(groups = "end2end")
-    @Parameters({"user", "password"})
-    public void testSuccessfulLogin(String user, String password){
+    private static final String mail = "cctestuser4@yopmail.com";
+	private static final String user = "CCTest@2021";
+
+	@Test(groups = "end2end")
+    @Parameters({mail, user})
+    public void testSuccessfulLogin(String mail, String password){
     	
     	//Start timer
         setTimestamp("testSuccessfulLogin");
         
         LoginPage loginPage = homePage.clickFormAuthentication();
-        loginPage.setUsername(user);
-        Reporter.log("Enter username: " + user);
+        loginPage.setEmail(mail);
+        Reporter.log("Enter email adress: " + mail);
         log.debug("Once before all tests within this class");
         loginPage.setPassword(password);
         Reporter.log("Enter password: " + password);
-        SecureAreaPage secureAreaPage = loginPage.clickLoginButton();
-        secureAreaPage.getAlertText();
+        DashboardPage dashboardPage = loginPage.clickLoginButton();
+        dashboardPage.getAlertText();
         
-        assertTrue(secureAreaPage.getAlertText()
+        assertTrue(dashboardPage.getAlertText()
                         .contains("You logged into a secure area!")
-                , "Alert text is incorrect");
-        
+                , "Alert text is incorrect"); 
         //Report duration
         Reporter.log("Test duration: " + getDurationInMillisFrom("testSuccessfulLogin") + " ms");
         
@@ -50,11 +54,11 @@ public class LoginTests extends BaseTest {
     @Test(groups = "end2end")
     public void testSuccessfulLogin1() throws InterruptedException {
         LoginPage loginPage = homePage.clickFormAuthentication();
-        loginPage.setUsername("tomsmith");
-        loginPage.setPassword("SuperSecretPassword!");
-        SecureAreaPage secureAreaPage = loginPage.clickLoginButton();
-        secureAreaPage.getAlertText();
-        assertTrue(secureAreaPage.getAlertText()
+        loginPage.setEmail("cctestuser4@yopmail.com");
+        loginPage.setPassword("CCTest@2021");
+        DashboardPage dashboardPage = loginPage.clickLoginButton();
+        dashboardPage.getAlertText();
+        assertTrue(dashboardPage.getAlertText()
                         .contains("You logged into a secure area!")
                 , "Alert text is incorrect");
     }
@@ -62,11 +66,11 @@ public class LoginTests extends BaseTest {
     @Test(groups = "end2end")
     public void testSuccessfulLogin2() throws InterruptedException {
         LoginPage loginPage = homePage.clickFormAuthentication();
-        loginPage.setUsername("tomsmith");
-        loginPage.setPassword("SuperSecretPassword!");
-        SecureAreaPage secureAreaPage = loginPage.clickLoginButton();
-        secureAreaPage.getAlertText();
-        assertTrue(secureAreaPage.getAlertText()
+        loginPage.setEmail("cctestuser4@yopmail.com");
+        loginPage.setPassword("CCTest@2021");
+        DashboardPage dashboardPage = loginPage.clickLoginButton();
+        dashboardPage.getAlertText();
+        assertTrue(dashboardPage.getAlertText()
                         .contains("You logged into a secure area!")
                 , "Alert text is incorrect");
     }
